@@ -1,3 +1,4 @@
+from turtle import distance
 from Node import Node
 import math
 from PriorityQueue import PriorityQueue
@@ -20,5 +21,21 @@ class AStar(Algorithm):
         :return: The path which is a list of nodes.
         """
         # TODO: You should implement inside of this method!
-        
+        que = PriorityQueue()
+        node = self.start_node
+        for j in range(self.iteration):
+            for i in node.connections:
+                estimated = i.get_estimated_distance(self.target_node)
+                distance = node.get_distance(i)
+                final = estimated + distance
+                que.enqueue(i,final)
+            
+            
+   
+            node =  que.dequeue()
+           
+            self.iteration+=1
+            for i in range(que.__len__()):
+                que.dequeue()   
+        print(node)
         return []
