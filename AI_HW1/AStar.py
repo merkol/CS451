@@ -20,4 +20,5 @@ class AStar(Algorithm):
         :return: The path which is a list of nodes.
         """
         # TODO: You should implement inside of this method!
+        x = 5
         return []
