@@ -23,20 +23,29 @@ class AStar(Algorithm):
         """
         # TODO: You should implement inside of this method!
         que = PriorityQueue()
-        path = [self.start_node]
         node = self.start_node
+        path = [node]
         
-        for i in node.connections:
-            estimated = i.get_estimated_distance(self.target_node)
-            distance = node.get_distance(i)
-            final = estimated + distance
-            que.enqueue(i,final)
+        for j in range(self.number_of_nodes):
+            for i in node.connections:
+                if i in path:
+                    pass
+                else: 
+                    estimated = i.get_estimated_distance(self.target_node)
+                    distance = node.get_distance(i)
+                    final = estimated + distance
+                    if i !='T':   
+                        que.enqueue(i,final)
+                    elif i=='T' and j == self.number_of_nodes-1:
+                        que.enqueue(i,final)
+
             
             
-   
-        node = que.dequeue()
-        path.append(node)
-        self.iteration+=1
-        for i in range(que.__len__()):
-            que.dequeue()
+            if len(que) != 0:
+                node = que.dequeue()
+                path.append(node)
+                self.iteration+=1
+            if len(que) != 0:
+                for i in range(len(que)):
+                    que.dequeue()
         return path
