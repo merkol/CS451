@@ -24,7 +24,7 @@ class AStar(Algorithm):
         # TODO: You should implement inside of this method!
         que = PriorityQueue()
         node = self.start_node
-        visited = set()
+    
         que.enqueue([0,node,[node]],0)
         while que:
             x = que.dequeue()
@@ -33,8 +33,7 @@ class AStar(Algorithm):
             cost = x[0]
             path = x[2]
 
-            
-            visited.add(node)
+          
             if path[0] == self.start_node and path[-1] == self.target_node and len(path) == self.number_of_nodes:
                 break
             for i in node.connections:
@@ -43,4 +42,4 @@ class AStar(Algorithm):
                     que.enqueue([total_cost,i,path+[i]],total_cost)
                     self.iteration+=1
         
-        return path
+        return path 
