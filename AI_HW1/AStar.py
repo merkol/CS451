@@ -27,19 +27,17 @@ class AStar(Algorithm):
     
         que.enqueue([0,node,[node]],0)
         while que:
-            x = que.dequeue()
+            cost,node,path = que.dequeue()
 
-            node = x[1]
-            cost = x[0]
-            path = x[2]
-
+            
           
             if path[0] == self.start_node and path[-1] == self.target_node and len(path) == self.number_of_nodes:
                 break
             for i in node.connections:
                 if i not in path:
-                    total_cost = cost + node.get_distance(i) + node.get_estimated_distance(self.target_node)
+                    total_cost = cost + node.get_distance(i) + node.get_estimated_distance(self.target_node) * (self.number_of_nodes-len(path))
                     que.enqueue([total_cost,i,path+[i]],total_cost)
                     self.iteration+=1
         
-        return path 
+        return path
+  
