@@ -36,6 +36,6 @@ class UniformCostSearch(Algorithm):
                 if i not in path:
                     total_cost = cost + node.get_distance(i)
                     que.enqueue([total_cost,i,path+[i]],total_cost)
-                    self.iteration+=1
+            self.iteration+=1
         
         return path
