@@ -27,7 +27,7 @@ class AStar(Algorithm):
         node = self.start_node
     
         que.enqueue([0,node,[node]],0)
-        while que:
+        while len(que)!=0:
             cost,node,path = que.dequeue()
 
             self.iteration+=1
