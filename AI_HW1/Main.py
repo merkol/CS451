@@ -5,7 +5,7 @@ from UniformCostSearch import UniformCostSearch
 import time
 
 
-DATA_PATH = "data1.json"  # The data file path. You can edit this.
+DATA_PATH = "data3.json"  # The data file path. You can edit this.
 
 
 def run(alg):
