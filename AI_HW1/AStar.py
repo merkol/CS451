@@ -38,16 +38,10 @@ class AStar(Algorithm):
             c = self.calculate_mst(path)
             for i in node.connections:
                 if i not in path:
-<<<<<<< HEAD
-                    total_cost = cost + node.get_distance(i) + i.get_distance(self.start_node)
-                    que.enqueue([total_cost,i,path+[i]],total_cost)
-            self.iteration+=1
-=======
                     total_cost = cost + node.get_distance(i)
                     
                     que.enqueue([total_cost,i,path+[i]],total_cost+c)
             
->>>>>>> 5824aa869e1fb7a771b66ff298eea16430b646f5
         
         return path
 
