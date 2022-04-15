@@ -35,9 +35,9 @@ class AStar(Algorithm):
                 break
             for i in node.connections:
                 if i not in path:
-                    total_cost = cost + node.get_distance(i) + node.get_estimated_distance(self.target_node) * (self.number_of_nodes-len(path))
+                    total_cost = cost + node.get_distance(i) + i.get_distance(self.start_node)
                     que.enqueue([total_cost,i,path+[i]],total_cost)
-                    self.iteration+=1
+            self.iteration+=1
         
         return path
   
