@@ -16,14 +16,16 @@ def return_random_population(population_size, chromosome_size, gene_set):
     '''
     return np.random.choice(gene_set, size=(population_size,chromosome_size))
 
+
+
 if __name__ == '__main__':
   
     """
         Main method
     """
-    gen_set = [0,1]
-    sample_size = 100
+    population_size = 16
     chromosome_size = 12
-    pop = return_random_population(sample_size,chromosome_size,gen_set)
-    print(pop)
+    gene_set = np.arange(-1,1,0.0001).tolist()
+    population = return_random_population(population_size,chromosome_size,gene_set)
+    
 
