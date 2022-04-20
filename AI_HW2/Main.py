@@ -30,11 +30,17 @@ if __name__ == '__main__':
                 splitted[j] = np.reshape(splitted[j],(3,2))
             else:
                 splitted[j] = np.reshape(splitted[j],(2,3))
-    
+
             b = splitted[j]
             a.append(b)
-    a = np.asarray(a)                 
-    print(a[1])
+
+    a = np.asarray(a,dtype='object')
+    a = np.reshape(a,(20,2))
+    print(a[0])
+ 
+
+                       
+
     #reshaped = np.reshape(splitted[0],(3,2))
     """ for generation in range(generations):
         if generation % 200 == 0:
