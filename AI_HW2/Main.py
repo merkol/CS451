@@ -4,17 +4,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def return_random_population(population_size, chromosome_size, gene_set):
-    '''Returns a random initialised population
 
-    This funtion initialise a matrix of integers using numpy randint.
-    @param chromosome_size 
-    @param population_size
-    @param gene_set list or array containing the gene values
-    @return matrix of integers size:
-         population_size x chromosome_size
-    '''
-    return np.random.choice(gene_set, size=(population_size,chromosome_size))
+
 
 
 
@@ -23,9 +14,17 @@ if __name__ == '__main__':
     """
         Main method
     """
-    population_size = 16
-    chromosome_size = 12
-    gene_set = np.arange(-1,1,0.0001).tolist()
-    population = return_random_population(population_size,chromosome_size,gene_set)
+    
+    chromosomes = 16
+    genes = 12
+    generations = 2000
+    population = np.random.uniform(-1,1,(chromosomes,genes))
+   
+    #splitted = np.hsplit(population,2)
+    for generation in range(generations):
+        if generation % 200 == 0:
+            print(("Generation:", generation+1))
+    
+  
     
 
