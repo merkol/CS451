@@ -33,8 +33,8 @@ if __name__ == '__main__':
     
             b = splitted[j]
             a.append(b)
-        
-    print(len(a))
+    a = np.asarray(a)                 
+    print(a[1])
     #reshaped = np.reshape(splitted[0],(3,2))
     """ for generation in range(generations):
         if generation % 200 == 0:
