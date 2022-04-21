@@ -1,14 +1,5 @@
-from posixpath import split
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-
-
-
-
-
 
 if __name__ == '__main__':
   
@@ -21,8 +12,9 @@ if __name__ == '__main__':
     generations = 2000
     population = np.random.uniform(-1,1,(chromosomes,genes))
     population = np.around(population,4)
-    fitness = []
+    fitness_array = np.zeros(chromosomes)
     
+    # Convert our [chromosomes * genes] matrice into [chromosome*2] and this matrice will contain [3*2] and [2*3] small matrices in each row
     population_reshaped = []
     for i in range(chromosomes):
         splitted = np.hsplit(population[i],2)
@@ -32,36 +24,37 @@ if __name__ == '__main__':
             else:
                 splitted[j] = np.reshape(splitted[j],(2,3))
 
-            
             population_reshaped.append(splitted[j])
+            
 
-    population_reshaped = np.asarray(population_reshaped,dtype='object')
-    population_reshaped = np.reshape(population_reshaped,(20,2))
+    population_reshaped = np.asarray(population_reshaped).reshape((20,2))
     
-    predict = []
-    for j in range(chromosomes):
-        for i in range(len(x_df)):
-            x = x_df.loc[i,['X1','X2','X3']].to_numpy()
-            x = np.reshape(x,(1,3))
-            H = np.dot(x,population_reshaped[j][0])
-            F = np.dot(H,population_reshaped[j][1])
+    # Gen creation will start from here
+    for generation in range(generations):
+       
+        #Below loop is fitness calculation
+        for i in range(chromosomes):
+            x = x_df.loc[:,['X1','X2','X3']].to_numpy()
+            x = np.reshape(x,(100,3))
+            H = np.dot(x,population_reshaped[i][0])
+            F = np.dot(H,population_reshaped[i][1])
 
             y_predict = np.sum(F,axis=-1)
-            predict.append(abs(y_predict[0]-x_df.loc[i,['Y']][0]))
-    
-        x_df['Fitness'] = predict
-        predict = []
-        fitness.append(x_df['Fitness'].sum())
-        x_df.drop(['Fitness'],inplace=True,axis=1)
-    
-    print(x_df.head())
-    fitness = [round(i,3) for i in fitness] 
-    print(fitness)
-  
-    """ for generation in range(generations):
+            y = x_df.loc[:,['Y']].to_numpy()
+            y = np.reshape(y,(100,))
+            fitness_value = np.sqrt((y-y_predict)**2).sum() 
+            fitness_array[i] = fitness_value 
+            
+        
+        fitness_array = np.round(fitness_array,3)
+
+
         if generation % 200 == 0:
-            print(("Generation:", generation)) """
+            print(("Generation:", generation))
+            print(('Fitness:', fitness_array))
     
-  
+
+
+   
     
 
