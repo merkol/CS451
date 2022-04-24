@@ -4,9 +4,7 @@ import matplotlib.pyplot as plt
 
 
 
-
-
-def matrix_convertion(population, chromosomes):
+def matrix_conversion(population, chromosomes):
     # Convert our [chromosomes * genes] matrice into [chromosome * 2] and this matrice will contain [3*2] and [2*3] small matrices in each row for calculating our fitness
 
     population_reshaped = []
@@ -38,13 +36,14 @@ if __name__ == '__main__':
     generations = 2000
     mattingSize = 12 # Parent size
     offSpringSize = chromosomes - mattingSize # children size
-    population = np.random.uniform(-1,1,(chromosomes,genes))
-    population = np.around(population,4)
-    fitness = np.zeros(chromosomes)
-    fitness_visualization = np.zeros((generations,chromosomes))
+    population = np.random.uniform(-1,1,(chromosomes,genes)) # Population creation
+    population = np.around(population,4) # Rounding numbers to 4 digits
+    fitness = np.zeros(chromosomes) # fitness array
+    fitness_visualization = np.zeros((generations,chromosomes)) # this is for scatter plot only
+    f = np.empty(generations) # this is for line plot only
     # Gen creation will start from here
     for generation in range(generations):
-        population_reshaped = matrix_convertion(population,chromosomes)
+        population_reshaped = matrix_conversion(population,chromosomes)
         #Below loop is fitness calculation
         for i in range(chromosomes):
             x = x_df.loc[:,['X1','X2','X3']].to_numpy()
@@ -57,14 +56,16 @@ if __name__ == '__main__':
             y = np.reshape(y,(100,))
             fitness_value = np.sqrt((y-y_predict)**2).sum() # Fitness Value Calculation
             fitness[i] = fitness_value 
-        
         fitness = np.round(fitness,3)
-        fitness_visualization[generation,:] = fitness
+       
+        fitness_visualization[generation,:] = fitness # These two lines are for visualization only
+        f[generation] = np.min(fitness) 
+        
         parents = np.empty((mattingSize, genes))
         offspring = np.empty((offSpringSize, genes))
 
 
-        if generation % 200 == 0:
+        if generation % 200 == 0: # Printing fitness values every 2000 generations
             print(("Generation:", generation))
             print(('Fitness:', fitness))
 
@@ -80,18 +81,18 @@ if __name__ == '__main__':
         for i in range(offSpringSize): #Crossover
             crossoverPoint = np.random.randint(0,genes) 
             parent1Index = i % mattingSize    # Mod operation to not go over array out of bounds
-            parent2Index = (i+1)% mattingSize 
+            parent2Index = (i+1) % mattingSize 
             offspring[i, 0: crossoverPoint] = parents[parent1Index, 0: crossoverPoint] # First Half
             offspring[i, crossoverPoint:] = parents[parent2Index, crossoverPoint:] # Second Half
        
         for i in range(offSpringSize): # Mutation
-            randomIndex = np.random.randint(1,genes)
+            randomIndex = np.random.randint(1,genes)  
             randomValue = np.random.uniform(-1, 1, 1)
             randomValue= np.round(randomValue,4)
-            offspring [i, randomIndex] = randomValue  # Assigning the random value generated to our offsprings some random gene
+            offspring [i,randomIndex] = randomValue  # Assigning the random value generated to our offsprings some random gene
         
         
-        population[0:mattingSize,:] = parents   # Repopulate our new generation
+        population[0:mattingSize,:] = parents   # Repopulate our new generation mattingSize + offspringSize = next gen population
         population[mattingSize:,:] = offspring
 
    
@@ -99,13 +100,23 @@ if __name__ == '__main__':
     y = fitness_visualization
 
     for xe, ye in zip(x, y):
-        plt.scatter([xe] * len(ye), ye, s = 5)
-    plt.title('100 row inputs 20 chromosomes matting size of 12, each color represent a chromosome')    
+       plt.scatter([xe] * len(ye), ye, s = 3)
+    plt.title(f'100 row inputs {chromosomes} chromosomes matting size of {mattingSize} , each color represent a chromosome')    
     plt.xlabel('# of generations')
     plt.ylabel('Fitness scores')
     plt.xticks([0,200,400,600,800,1000,1200,1400,1600,1800,2000])
-    plt.ylim(0,30)
+    plt.ylim(0,35)
     plt.show()
+
+    
+    plt.plot(x,f)
+    plt.title(f'Best of each generation for {chromosomes} chromosomes and {mattingSize} matting size')    
+    plt.ylabel('Fitness scores')
+    plt.xlabel('# of generations')
+    plt.xticks([0,200,400,600,800,1000,1200,1400,1600,1800,2000])
+
+    plt.show()
+
     
     
 
